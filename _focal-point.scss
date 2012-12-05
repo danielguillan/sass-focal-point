@@ -141,7 +141,7 @@
             @if $portrait-classes {
 
                 .portrait.focal-point #{$inner-element} {
-                    margin: -#{$v}em -#{$h}em;
+		    margin: -#{$h}em -#{$v}em;
                 }
 
                 .portrait.down-#{$i} #{$inner-element} {
