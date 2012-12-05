@@ -1,46 +1,37 @@
 // =============================================================================
-// Focal Point
-//
+// Focal Point: Pure HTML/CSS Adaptive Images Framework
 // Author: Adam Bradley, Daniel Guillan, 2012
 // License: MIT/GPLv2
-// https://github.com/danielguillan/sass-focal-point
 // https://github.com/adamdbradley/focal-point
 //
-// A Sass port of Adam Bradley's Focal Point Pure HTML/CSS Adaptive
-// Images Framework
-//
-// This mixin allows you to take control over how many classes are generated,
-// the media query breakpoint value and the inner element.
+// A mixin to take full control of Focal Point:
+//    - Custom grid (more or less precision/classnames)
+//    - Generate landscape and/or portrait classes
+//    - Custom media query breakpoint
+//    - Custom inner html element
 //
 // Usage:
-//
-// On your Sass:
 //   // import focal-point
 //   @import 'focal-point';
 //
 //   // Include the mixin and tweak the settings if needed
 //   @include focal-point(
 //      $grid: 12,
-//      $portrait: true,
+//      $landscape-classes: true,
+//      $portrait-classes: true,
 //      $breakpoint: 768px,
 //      $inner-element: div
 //      );
 //
-// // On your HTML:
-// <div class="focal-breakpoint up-3 right-4">
-//   <div><img src="" alt=""></div>
-// </div>
-
 // =============================================================================
 
 // =============================================================================
-//
 // Table of contents:
 // 1. Variables
 // 2. Base classes
-// 3. Horizontal classes
-// 4. Vertical classes
-//
+// 3. The math
+// 4. Horizontal classes
+// 5. Vertical classes
 // =============================================================================
 
 @mixin focal-point(
@@ -55,7 +46,7 @@
     // 1. Variables
     // =============================================================================
 
-    // Check if $grid is even and at least 2. If not, reset grid to default.
+    // Check if $grid is even and at least 2. If not, warn and reset grid to default.
     @if (type-of($grid) != number) or ($grid < 2) or ($grid / 2 != round($grid / 2)) {
         @warn 'Focal Point grid should be an even number (4, 6, 8, …). Using default grid instead (12).';
         $grid: 12;
@@ -68,7 +59,7 @@
     $horizontal-size: $h * 2;
 
     // =============================================================================
-    // 2. Basic classes
+    // 2. Base classes
     // =============================================================================
 
     .focal-point {
@@ -94,6 +85,10 @@
 
         @for $i from 1 through $half-grid {
 
+            // =============================================================================
+            // 3. The math
+            // =============================================================================
+
             $step: $vertical-size / $grid;
             $margin1: $vertical-size - ($step * ($half-grid - $i));
             $margin-op1: $step * ($half-grid - $i);
@@ -103,7 +98,7 @@
             $margin-op2: $step * ($half-grid - $i);
 
             // =============================================================================
-            // 3. Landscape classes
+            // 4. Landscape classes
             // =============================================================================
 
             @if $landscape-classes {
@@ -135,13 +130,13 @@
             }
 
             // =============================================================================
-            // 4. Portrait classes
+            // 5. Portrait classes
             // =============================================================================
 
             @if $portrait-classes {
 
                 .portrait.focal-point #{$inner-element} {
-		    margin: -#{$h}em -#{$v}em;
+                    margin: -#{$h}em -#{$v}em;
                 }
 
                 .portrait.down-#{$i} #{$inner-element} {
