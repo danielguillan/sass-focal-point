@@ -6,7 +6,7 @@
 // https://github.com/danielguillan/sass-focal-point
 // https://github.com/adamdbradley/focal-point
 //
-// A SASS port of Adam Bradley's Focal Point Pure HTML/CSS Adaptive
+// A Sass port of Adam Bradley's Focal Point Pure HTML/CSS Adaptive
 // Images Framework
 //
 // This mixin allows you to take control over how many classes are generated,
@@ -27,7 +27,7 @@
 //      );
 //
 // // On your HTML:
-// <div class="focal-breakpoint landscape up-3 right-4">
+// <div class="focal-breakpoint up-3 right-4">
 //   <div><img src="" alt=""></div>
 // </div>
 
@@ -55,7 +55,7 @@
     // 1. Variables
     // =============================================================================
 
-    // Check if $grid is even and at least 2
+    // Check if $grid is even and at least 2. If not, reset grid to default.
     @if (type-of($grid) != number) or ($grid < 2) or ($grid / 2 != round($grid / 2)) {
         @warn 'Focal Point grid should be an even number (4, 6, 8, …). Using default grid instead (12).';
         $grid: 12;
@@ -112,22 +112,22 @@
 
             @if $landscape-classes {
 
-                .landscape.down-#{$i} #{$inner-element} {
+                .down-#{$i} #{$inner-element} {
                     margin-top:    -#{$margin1}em;
                     margin-bottom: -#{$margin-op1}em;
                 }
 
-                .landscape.up-#{$i} #{$inner-element} {
+                .up-#{$i} #{$inner-element} {
                     margin-top:    -#{$margin-op1}em;
                     margin-bottom: -#{$margin1}em;
                 }
 
-                .landscape.right-#{$i} #{$inner-element} {
+                .right-#{$i} #{$inner-element} {
                     margin-left:    -#{$margin2}em;
                     margin-right: -#{$margin-op2}em;
                 }
 
-                .landscape.left-#{$i} #{$inner-element} {
+                 .left-#{$i} #{$inner-element} {
                     margin-left:    -#{$margin-op2}em;
                     margin-right: -#{$margin2}em;
                 }
