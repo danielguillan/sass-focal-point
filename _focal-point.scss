@@ -1,0 +1,170 @@
+// =============================================================================
+// Focal Point
+//
+// Author: Adam Bradley, Daniel Guillan, 2012
+// License: MIT/GPLv2
+// https://github.com/danielguillan/sass-focal-point
+// https://github.com/adamdbradley/focal-point
+//
+// A SASS port of Adam Bradley's Focal Point Pure HTML/CSS Adaptive
+// Images Framework
+//
+// This mixin allows you to take control over how many classes are generated,
+// the media query breakpoint value and the inner element.
+//
+// Usage:
+//
+// On your Sass:
+//   // import focal-point
+//   @import 'focal-point';
+//
+//   // Include the mixin and tweak the settings if needed
+//   @include focal-point(
+//      $grid: 12,
+//      $portrait: true,
+//      $breakpoint: 768px,
+//      $inner-element: div
+//      );
+//
+// // On your HTML:
+// <div class="focal-breakpoint landscape up-3 right-4">
+//   <div><img src="" alt=""></div>
+// </div>
+
+// =============================================================================
+
+// =============================================================================
+//
+// Table of contents:
+// 1. Variables
+// 2. Base classes
+// 3. Horizontal classes
+// 4. Vertical classes
+//
+// =============================================================================
+
+@mixin focal-point(
+        $grid: 12,
+        $landscape-classes: true,
+        $portrait-classes: true,
+        $breakpoint: 767px,
+        $inner-element: div
+    ) {
+
+    // =============================================================================
+    // 1. Variables
+    // =============================================================================
+
+    // Check if $grid is even and at least 2
+    @if (type-of($grid) != number) or ($grid < 2) or ($grid / 2 != round($grid / 2)) {
+        @warn 'Focal Point grid should be an even number (4, 6, 8, …). Using default grid instead (12).';
+        $grid: 12;
+    }
+
+    $half-grid: $grid / 2;
+    $h: 4;
+    $v: 3;
+    $vertical-size: $v * 2;
+    $horizontal-size: $h * 2;
+
+    // =============================================================================
+    // 2. Basic classes
+    // =============================================================================
+
+    .focal-point {
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+    }
+
+    .focal-point img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        -ms-interpolation-mode: bicubic;
+    }
+
+    .focal-point #{$inner-element} {
+        position: relative;
+        max-width: none;
+        height: auto;
+    }
+
+    @media all and (max-width: $breakpoint) {
+
+        .focal-point #{$inner-element} {
+            margin: -#{$v}em -#{$h}em;
+        }
+
+        @for $i from 1 through $half-grid {
+
+            $step: $vertical-size / $grid;
+            $margin1: $vertical-size - ($step * ($half-grid - $i));
+            $margin-op1: $step * ($half-grid - $i);
+
+            $step: $horizontal-size / $grid;
+            $margin2: $horizontal-size - ($step * ($half-grid - $i));
+            $margin-op2: $step * ($half-grid - $i);
+
+            // =============================================================================
+            // 3. Landscape classes
+            // =============================================================================
+
+            @if $landscape-classes {
+
+                .landscape.down-#{$i} #{$inner-element} {
+                    margin-top:    -#{$margin1}em;
+                    margin-bottom: -#{$margin-op1}em;
+                }
+
+                .landscape.up-#{$i} #{$inner-element} {
+                    margin-top:    -#{$margin-op1}em;
+                    margin-bottom: -#{$margin1}em;
+                }
+
+                .landscape.right-#{$i} #{$inner-element} {
+                    margin-left:    -#{$margin2}em;
+                    margin-right: -#{$margin-op2}em;
+                }
+
+                .landscape.left-#{$i} #{$inner-element} {
+                    margin-left:    -#{$margin-op2}em;
+                    margin-right: -#{$margin2}em;
+                }
+
+            }
+
+            // =============================================================================
+            // 4. Portrait classes
+            // =============================================================================
+
+            @if $portrait-classes {
+
+                .portrait.focal-point #{$inner-element} {
+                    margin: -#{$v}em -#{$h}em;
+                }
+
+                .portrait.down-#{$i} #{$inner-element} {
+                    margin-top:    -#{$margin2}em;
+                    margin-bottom: -#{$margin-op2}em;
+                }
+
+                .portrait.up-#{$i} #{$inner-element} {
+                    margin-top:    -#{$margin-op2}em;
+                    margin-bottom: -#{$margin2}em;
+                }
+
+                .portrait.right-#{$i} #{$inner-element} {
+                    margin-left:    -#{$margin1}em;
+                    margin-right: -#{$margin-op1}em;
+                }
+
+                .portrait.left-#{$i} #{$inner-element} {
+                    margin-left:    -#{$margin-op1}em;
+                    margin-right: -#{$margin1}em;
+                }
+
+            }
+        }
+    }
+}
