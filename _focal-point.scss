@@ -92,10 +92,6 @@
 
     @media all and (max-width: $breakpoint) {
 
-        .focal-point #{$inner-element} {
-            margin: -#{$v}em -#{$h}em;
-        }
-
         @for $i from 1 through $half-grid {
 
             $step: $vertical-size / $grid;
@@ -111,6 +107,10 @@
             // =============================================================================
 
             @if $landscape-classes {
+
+                .focal-point #{$inner-element} {
+                    margin: -#{$v}em -#{$h}em;
+                }
 
                 .down-#{$i} #{$inner-element} {
                     margin-top:    -#{$margin1}em;
